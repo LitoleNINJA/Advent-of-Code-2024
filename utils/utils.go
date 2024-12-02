@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"bufio"
@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func readLines() ([]string, error) {
+func ReadLines() ([]string, error) {
 	lines := make([]string, 0)
 
 	file, err := os.Open("input.txt")
@@ -28,7 +28,7 @@ func readLines() ([]string, error) {
 	return lines, nil
 }
 
-func abs(x int) int {
+func Abs(x int) int {
 	if x > 0 {
 		return int(x)
 	}
