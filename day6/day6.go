@@ -68,7 +68,7 @@ func partTwo(lines []string) int {
 		for j, ch := range line {
 			if ch == '.' {
 				bytes[j] = '#'
-				if isStuck()
+				// if isStuck()
 			}
 		}
 		lines[i] = string(bytes)

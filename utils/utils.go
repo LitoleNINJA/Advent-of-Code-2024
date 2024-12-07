@@ -3,6 +3,7 @@ package utils
 import (
 	"bufio"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -33,4 +34,23 @@ func Abs(x int) int {
 		return int(x)
 	}
 	return int(-x)
+}
+
+func StringSliceToInt(values []string) ([]int64, error) {
+	result := make([]int64, 0, len(values))
+
+	for _, v := range values {
+		// Skip empty strings
+		if v == "" {
+			continue
+		}
+
+		num, err := strconv.ParseInt(v, 10, 64)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, num)
+	}
+
+	return result, nil
 }
