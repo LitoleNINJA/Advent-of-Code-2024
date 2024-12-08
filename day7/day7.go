@@ -20,12 +20,12 @@ func DAY7() {
 	start := time.Now()
 	result := partOne(lines)
 	duration := time.Since(start) 
-	fmt.Printf("Part 1 : %d, Time Taken : %v\n", result, duration)
+	fmt.Printf("Part 1 : %d | Time Taken : %.4f seconds\n", result, duration.Seconds())
 
 	start = time.Now()
 	result = partTwo(lines)
 	duration = time.Since(start) 
-	fmt.Printf("Part 2 : %d, Time Taken : %v\n", result, duration)
+	fmt.Printf("Part 2 : %d | Time Taken : %.4f seconds\n", result, duration.Seconds())
 }
 
 func partOne(lines []string) int64 {

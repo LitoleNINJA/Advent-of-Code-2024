@@ -92,7 +92,7 @@ func inRange(lines []string, i int, j int) bool {
 
 func isCrossMAS(lines []string, i int, j int) bool {
 	if inRange(lines, i-1, j-1) && inRange(lines, i+1, j+1) && inRange(lines, i+1, j-1) && inRange(lines, i-1, j+1) {
-		if isMA(lines[i-1][j-1], lines[i+1][j+1]) && isMA(lines[i+1][j-1], lines[i-1][j+1]) {
+		if isMS(lines[i-1][j-1], lines[i+1][j+1]) && isMS(lines[i+1][j-1], lines[i-1][j+1]) {
 			return true
 		}
 	}
@@ -100,6 +100,6 @@ func isCrossMAS(lines []string, i int, j int) bool {
 	return false
 }
 
-func isMA(x string, y string) {
-	
+func isMS(x byte, y byte) bool {
+	return (x == 'M' && y == 'S') || (x == 'S' && y == 'M');
 }
