@@ -54,3 +54,7 @@ func StringSliceToInt(values []string) ([]int64, error) {
 
 	return result, nil
 }
+
+func InRange(lines []string, i int, j int) bool {
+	return (i >= 0 && i < len(lines) && j >= 0 && j < len(lines[0]))
+}
