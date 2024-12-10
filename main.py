@@ -1,14 +1,17 @@
-from itertools import permutations
+f, s, p = [], [], 0
+for i, l in enumerate( map( int, open( "input.txt" ).read().strip() ) ):
+    ( f, s )[ i % 2 ].append( ( p, l ) )
+    p += l
 
-G = {i+j*1j: c for i,r in enumerate(open("input.txt"))
-               for j,c in enumerate(r.strip())}
+for fi in range( len( f ) - 1, -1, -1 ):
+    fp, fl = f[ fi ]
+    for si, ( sp, sl ) in enumerate( s ):
+        if sl >= fl:
+            f[ fi ] = ( sp, fl )
+            s[ si ] = ( sp + fl, sl - fl )
+            break
+        if sp >= fp:
+            break
 
-for r in [1], range(50):
-    anti = []
-    for freq in {*G.values()} - {'.'}:
-        ants = [p for p in G if G[p] == freq]
-        pairs = permutations(ants, 2)
-        anti += [a+n*(a-b) for a,b in pairs
-                           for n in r]
-
-    print(len(set(anti) & set(G)))
+print( sum( sum( n * x for x in range( p, p + l ) )
+            for n, ( p, l ) in enumerate( f ) ) )
