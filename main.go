@@ -1,7 +1,7 @@
 package main
 
 import (
-	"aoc2024/day10"
+	"aoc2024/day11"
 )
 
 func main() {
@@ -13,5 +13,6 @@ func main() {
 	// day7.DAY7()
 	// day8.DAY8()
 	// day9.DAY9()
-	day10.DAY10()
+	// day10.DAY10()
+	day11.DAY11()
 }

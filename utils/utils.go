@@ -58,3 +58,12 @@ func StringSliceToInt(values []string) ([]int64, error) {
 func InRange(lines []string, i int, j int) bool {
 	return (i >= 0 && i < len(lines) && j >= 0 && j < len(lines[0]))
 }
+
+func DigitCount(n int64) int {
+	count := 0
+	for n != 0 {
+		n /= 10
+		count++
+	}
+	return count
+}
