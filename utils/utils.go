@@ -7,6 +7,13 @@ import (
 	"strings"
 )
 
+var Dir = [4][2]int{
+	{0, 1},
+	{1, 0},
+	{0, -1},
+	{-1, 0},
+}
+
 func ReadLines() ([]string, error) {
 	lines := make([]string, 0)
 
@@ -66,4 +73,14 @@ func DigitCount(n int64) int {
 		count++
 	}
 	return count
+}
+
+func StringSliceToByte(values []string) [][]byte {
+	result := make([][]byte, 0, len(values))
+
+	for _, v := range values {
+		result = append(result, []byte(v))
+	}
+
+	return result
 }
