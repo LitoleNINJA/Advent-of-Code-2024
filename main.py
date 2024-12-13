@@ -1,16 +1,33 @@
-import functools
+with open('input.txt') as f:
+    lines = [line.rstrip() for line in f]
 
-@functools.cache
-def count( n, b ):
-    if b == 75:
-        return 1
-    if n == 0:
-        return count( 1, b + 1 )
-    ns = str( n )
-    nl = len( ns )
-    if nl & 1 == 0:
-        return ( count( int( ns[ : nl // 2 ] ), b + 1 ) +
-                 count( int( ns[ nl // 2 : ] ), b + 1 ) )
-    return count( n * 2024, b + 1 )
+def solve(part: int):
+    tokens = 0
+    add = 10000000000000 if part == 2 else 0
+    for line in lines:
+        if line.startswith("Button"):
+            l = line.split(" ")
+            a = l[1].split(":")[0]
+            if a == 'A':
+                x1 = int(l[2][2:-1])
+                y1 = int(l[3][2:])
+            else:
+                x2 = int(l[2][2:-1])
+                y2 = int(l[3][2:])
+            # print(a,x,y)
+            
+        elif line.startswith("Prize"):
+            l = line.split(" ")
+            c = int(l[1][2:-1]) + add
+            d = int(l[2][2:]) + add
+            # print(l, x, y)
+            a = (c*y2 - d*x2) / (x1*y2 - y1*x2)
+            b = (d*x1 - c*y1) / (x1*y2 - y1*x2)
+            if a == int(a) and b == int(b):
+                print(line, int(a), int(b))
+                tokens += int(3 * a + b)
 
-print( sum( count( int( n ), 0 ) for n in open("input.txt").read().split() ) )
+    print(tokens)
+
+solve(1)
+solve(2)
