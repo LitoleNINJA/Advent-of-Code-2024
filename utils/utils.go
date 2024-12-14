@@ -62,7 +62,7 @@ func StringSliceToInt(values []string) ([]int64, error) {
 	return result, nil
 }
 
-func InRange(lines []string, i int, j int) bool {
+func InRange(lines []string, i, j int) bool {
 	return (i >= 0 && i < len(lines) && j >= 0 && j < len(lines[0]))
 }
 
@@ -83,4 +83,22 @@ func StringSliceToByte(values []string) [][]byte {
 	}
 
 	return result
+}
+
+func ReadXY(line, xCut, yCut, sep string) (int64, int64) {
+	x, y, _ := strings.Cut(line, sep)
+	xValStr, _ := strings.CutPrefix(x, xCut)
+	xVal, _ := strconv.ParseInt(xValStr, 10, 64)
+	yValStr, _ := strings.CutPrefix(y, yCut)
+	yVal, _ := strconv.ParseInt(yValStr, 10, 64)
+
+	return xVal, yVal
+}
+
+func Mod(a, b int) int {
+	m := a % b
+	if m < 0 {
+		m += b
+	}
+	return m
 }

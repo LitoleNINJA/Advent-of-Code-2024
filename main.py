@@ -1,33 +1,45 @@
+import sys
+import time
+
+W = 101
+H = 103
+
+ans = [0,0,0,0]
+
+robots = []
+
+st = 0
+lines = []
 with open('input.txt') as f:
     lines = [line.rstrip() for line in f]
 
-def solve(part: int):
-    tokens = 0
-    add = 10000000000000 if part == 2 else 0
-    for line in lines:
-        if line.startswith("Button"):
-            l = line.split(" ")
-            a = l[1].split(":")[0]
-            if a == 'A':
-                x1 = int(l[2][2:-1])
-                y1 = int(l[3][2:])
-            else:
-                x2 = int(l[2][2:-1])
-                y2 = int(l[3][2:])
-            # print(a,x,y)
-            
-        elif line.startswith("Prize"):
-            l = line.split(" ")
-            c = int(l[1][2:-1]) + add
-            d = int(l[2][2:]) + add
-            # print(l, x, y)
-            a = (c*y2 - d*x2) / (x1*y2 - y1*x2)
-            b = (d*x1 - c*y1) / (x1*y2 - y1*x2)
-            if a == int(a) and b == int(b):
-                print(line, int(a), int(b))
-                tokens += int(3 * a + b)
+for line in lines:
+    if line.strip() == "":
+        continue
+    p,v = line.split()
+    px,py = map(int,p[2:].split(",")) 
+    vx,vy = map(int,v[2:].split(","))
+    robots.append(((px,py),(vx,vy)))
 
-    print(tokens)
+seconds = 0
+while True:
+    grid = [[0 for _ in range(W)] for _ in range(H)]
+    seconds += 1
 
-solve(1)
-solve(2)
+    bad = False
+    for robot in robots:
+        pr1,pr2 = robot
+        px,py = pr1
+        vx,vy = pr2
+        nx,ny = px + seconds*vx, py + seconds*vy
+        nx = nx % W
+        ny = ny % H
+        grid[ny][nx] += 1
+        if grid[ny][nx] > 1:
+            bad = True
+
+    if not bad:
+        print(seconds)
+        for row in grid:
+            print("".join(map(str,row)))
+        time.sleep(0.3)

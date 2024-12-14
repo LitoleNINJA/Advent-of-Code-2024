@@ -4,7 +4,6 @@ import (
 	"aoc2024/utils"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -70,29 +69,19 @@ func readArcades(lines []string) []Arcade {
 		}
 
 		if config, ok := strings.CutPrefix(line, "Button A: "); ok {
-			x, y := readXY(config, "X+", "Y+")
+			x, y := utils.ReadXY(config, "X+", "Y+", ", ")
 			arcade.buttonA = [2]int64{x, y}
 		} else if config, ok := strings.CutPrefix(line, "Button B: "); ok {
-			x, y := readXY(config, "X+", "Y+")
+			x, y := utils.ReadXY(config, "X+", "Y+", ", ")
 			arcade.buttonB = [2]int64{x, y}
 		} else if config, ok := strings.CutPrefix(line, "Prize: "); ok {
-			x, y := readXY(config, "X=", "Y=")
+			x, y := utils.ReadXY(config, "X=", "Y=", ", ")
 			arcade.prize = [2]int64{x, y}
 		}
 	}
 	arcadeMachines = append(arcadeMachines, arcade)
 
 	return arcadeMachines
-}
-
-func readXY(line string, xCut string, yCut string) (int64, int64) {
-	x, y, _ := strings.Cut(line, ", ")
-	xValStr, _ := strings.CutPrefix(x, xCut) 
-	xVal, _ := strconv.ParseInt(xValStr, 10, 64)
-	yValStr, _ := strings.CutPrefix(y, yCut) 
-	yVal, _ := strconv.ParseInt(yValStr, 10, 64)
-
-	return xVal, yVal
 }
 
 func isReachable(arcade Arcade, isPart2 bool) (int64, bool) {
@@ -106,20 +95,19 @@ func isReachable(arcade Arcade, isPart2 bool) (int64, bool) {
 	x1, y1 := arcade.buttonA[0], arcade.buttonA[1]
 	x2, y2 := arcade.buttonB[0], arcade.buttonB[1]
 	c := arcade.prize[0] + add
-	d := arcade.prize[1] + add 
+	d := arcade.prize[1] + add
 
 	denominator := x1*y2 - y1*x2
 	if denominator == 0 {
 		return moves, false
 	}
-	
-	a := float64(c*y2 - d*x2) / float64(denominator)
-	b := float64(d*x1 - c*y1) / float64(denominator)
 
-	
+	a := float64(c*y2-d*x2) / float64(denominator)
+	b := float64(d*x1-c*y1) / float64(denominator)
+
 	if float64(int64(a)) == a && float64(int64(b)) == b {
 		// fmt.Println(a, b)
-		moves = int64(a * 3 + b)
+		moves = int64(a*3 + b)
 		reachable = true
 	}
 
