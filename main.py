@@ -1,45 +1,29 @@
-import sys
-import time
+grid, moves = open('input.txt').read().split('\n\n')
 
-W = 101
-H = 103
+def move(p, d):
+    p += d
+    if all([
+        grid[p] != '[' or move(p+1, d) and move(p, d),
+        grid[p] != ']' or move(p-1, d) and move(p, d),
+        grid[p] != 'O' or move(p, d), grid[p] != '#']):
+            grid[p], grid[p-d] = grid[p-d], grid[p]
+            return True
 
-ans = [0,0,0,0]
 
-robots = []
+for grid in grid, grid.translate(str.maketrans(
+        {'#':'##', '.':'..', 'O':'[]', '@':'@.'})):
 
-st = 0
-lines = []
-with open('input.txt') as f:
-    lines = [line.rstrip() for line in f]
+    grid = {i+j*1j:c for j,r in enumerate(grid.split())
+                     for i,c in enumerate(r)}
 
-for line in lines:
-    if line.strip() == "":
-        continue
-    p,v = line.split()
-    px,py = map(int,p[2:].split(",")) 
-    vx,vy = map(int,v[2:].split(","))
-    robots.append(((px,py),(vx,vy)))
+    pos, = [p for p in grid if grid[p] == '@']
 
-seconds = 0
-while True:
-    grid = [[0 for _ in range(W)] for _ in range(H)]
-    seconds += 1
+    for m in moves.replace('\n', ''):
+        dir = {'<':-1, '>':+1, '^':-1j, 'v':+1j}[m]
+        C = grid.copy()
 
-    bad = False
-    for robot in robots:
-        pr1,pr2 = robot
-        px,py = pr1
-        vx,vy = pr2
-        nx,ny = px + seconds*vx, py + seconds*vy
-        nx = nx % W
-        ny = ny % H
-        grid[ny][nx] += 1
-        if grid[ny][nx] > 1:
-            bad = True
+        if move(pos, dir): pos += dir
+        else: grid = C
 
-    if not bad:
-        print(seconds)
-        for row in grid:
-            print("".join(map(str,row)))
-        time.sleep(0.3)
+    ans = sum(pos for pos in grid if grid[pos] in 'O[')
+    print(int(ans.real + ans.imag*100))

@@ -66,6 +66,10 @@ func InRange(lines []string, i, j int) bool {
 	return (i >= 0 && i < len(lines) && j >= 0 && j < len(lines[0]))
 }
 
+func InRangeGrid(grid [][]byte, i, j int) bool {
+	return (i >= 0 && i < len(grid) && j >= 0 && j < len(grid[0]))
+}
+
 func DigitCount(n int64) int {
 	count := 0
 	for n != 0 {
