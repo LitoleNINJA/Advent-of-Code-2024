@@ -1,20 +1,26 @@
-from bisect import bisect
+from itertools import combinations
 
-data = [*map(eval, open('input.txt'))]
+grid = {i+j*1j: c for i,r in enumerate(open('input.txt'))
+                  for j,c in enumerate(r) if c != '#'}
 
-def path(i):
-    seen = {*data[:i]}
-    todo = [(0, (0,0))]
+start, = (p for p in grid if grid[p] == 'S')
 
-    for dist, (x,y) in todo:
-        if (x,y) == (70,70): return dist
 
-        for x,y in (x,y+1), (x,y-1), (x+1,y), (x-1,y):
-            if (x,y) not in seen and 0<=x<=70 and 0<=y<=70:
-                todo.append((dist+1, (x,y)))
-                seen.add((x,y))
-    return 1e9
+dist = {start: 0}
+todo = [start]
 
-print(path(1024))
+for pos in todo:
+    for new in pos-1, pos+1, pos-1j, pos+1j:
+        if new in grid and new not in dist:
+            dist[new] = dist[pos] + 1
+            todo += [new]
 
-print(data[bisect(range(len(data)), 1e9-1, key=path)-1])
+
+a = b = 0
+
+for (p,i), (q,j) in combinations(dist.items(), 2):
+    d = abs((p-q).real) + abs((p-q).imag)
+    if d == 2 and j-i-d >= 100: a += 1
+    if d < 21 and j-i-d >= 100: b += 1
+
+print(a, b)
